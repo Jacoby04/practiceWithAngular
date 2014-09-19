@@ -1,61 +1,112 @@
 <!DOCTYPE html>
-<html>
+
+<html ng-app="cougarApp">
+
+<!-- Jacob Opdahl & Savannah Farm -->
+<!-- Lab 3 -->
+
 <head lang="en">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style.css">
     <script type="text/javascript" src="../bower_components/angular/angular.min.js" ></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.1/angular.min.js"></script> -->
+    <script type="text/javascript" src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="../javascripts/angularfile1.js"></script>
     <script src="../javascripts/todo.js"></script>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Angular Practice</title>
 </head>
 
 <body>
-    <h1>Super Class Super Angular Super Fun!</h1>
 
-    <div class="listContainer" >
+    <div></div>
+        <header>
+
+            <h1>Super Class Super Angular Super Fun!</h1>
+
+        </header>
+    </div>
+
+    <div class="container-fluid" >
         <div class="row">
-            <div class="col-md-6" ng-app="cougarApp" ng-controller="CougarController">
+
+            <div class="col-md-6" ng-controller="TodoController">
                 <div class="morris">
-                    <h1>WordLists</h1>
+
+                    <h2>To-do</h2>
+
                     <hr/>
-                    <ul class="unstyled">
-                        <li ng-repeat="todo in cougarItems">
-                            <span>{{todo.text}}</span>
+                    <!-- Uses methods with the done property of the to-do items to count how many are done. -->
+                    <span>{{remaining()}} of {{todos.length}} remaining</span>
+                    [ <a href="" ng-click="archive()">archive</a> ]
+
+                    <!-- Uses Two-way data binding to take every object in todos and put it in a list item. -->
+                    <ul class="unstyled" id="noBullet">
+                        <li ng-repeat="todo in todos">
+                            <input type="checkbox" ng-model="todo.done">
+                            <span class="done-{{todo.done}}">{{todo.text}}</span>
                         </li>
                     </ul>
 
                     <hr/>
-                    <form ng-submit="addCougar()">
-                        <input type="text" ng-model="todoText" size="40" placeholder="add new todo title!">
+                    <!-- This will create a new to-do using the text. -->
+                    <form ng-submit="addTodo()">
+                        <input type="text" ng-model="todoText"  size="30"
+                               placeholder="add new todo here">
                         <input class="btn-primary" type="submit" value="add">
                     </form>
-                </div>
 
+                </div>
             </div>
-            <div class="col-md-6 padded" ng-app="todoApp">
+
+            <div class="col-md-6" ng-controller="CougarController">
                 <div class="morris">
-                    <h2>Todo</h2>
-                    <div ng-controller="TodoController">
-                        <span>{{remaining()}} of {{todos.length}} remaining</span>
-                        [ <a href="" ng-click="archive()">archive</a> ]
-                        <ul class="unstyled">
-                            <li ng-repeat="todo in todos">
-                                <input type="checkbox" ng-model="todo.done">
-                                <span class="done-{{todo.done}}">{{todo.text}}</span>
-                            </li>
-                        </ul>
-                        <form ng-submit="addTodo()">
-                            <input type="text" ng-model="todoText"  size="30"
-                                   placeholder="add new todo here">
-                            <input class="btn-primary" type="submit" value="add">
-                        </form>
-                    </div>
-                </div>
 
+                    <h2>Go Cougs!!!</h2>
+
+                    <hr/>
+                    <ol class="unstyled">
+                        <li ng-repeat="todo in cougarItems">
+                            <span>{{todo.text}}</span>
+                        </li>
+                    </ol>
+
+                    <!-- This gives alert when they try to delete Cougar Items without valid numbers. -->
+                    <hr/>
+                    <div>
+                        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+                    </div>
+
+                    <hr/>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <!-- This will use the text in the form to create a new cougar item. -->
+                            <form ng-submit="addCougar()">
+                                <input type="text" ng-model="todoText" size="28" placeholder="Add a new Cougar Favorite Phrase!">
+                                <input class="btn-primary" type="submit" value="Add">
+                            </form>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- This will remove the numbered item that is provided. -->
+                            <form ng-submit="removeCougar()">
+                                <input type="number" ng-model="index" size="25" placeholder="Choose which phrase to remove.">
+                                <input class="btn-primary" type="submit" value="Delete">
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+
+
+
         </div>
+
     </div>
+
 </body>
+
 </html>
